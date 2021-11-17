@@ -57,26 +57,4 @@ The same output as before, but with the styling: \
 Simply import the script and call it's `build()` method.
 It takes a dict that takes a `terms` list (text) and, optionally, a `config` dict (styling).
 
-There are a few types of terms.
-
-* Plain Text - `["plain", <text:str>]`
-* Command list - `["commands", <cmd:list>...]`
-  * cmd - `[<name:str>, <params:str>, <desc:str>]`
-    To exclude any of these, leave the field empty.
-* Horizontal Rule - `["rule"] | ["rule", <width:int>]`
-  * Default width depends on the style set.
-
-## AnsiColor
-
-There is also the `AnsiColor` class. It is converted into a valid ANSI code string.
-Declare it as `AnsiColor(<color:int>, <modifier:int>)`
-* Color uses one of the class' color enums: `BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE and GRAY`.
-* Modifier uses one of the class' modifier enums: `BOLD, DIM, UNDERLINE and INVERT`.
-
-You can also do `AnsiColor.RESET` *instead* of declaring `AnsiColor(AnsiColor.WHITE)`. \
-Any ANSI code fields accept either this or just manually writing the code. \
-`AnsiColor(AnsiColor.RED, AnsiColor.DIM)` **→** `"\033[2;31m"`
-
-## Styling
-
-Styling documentation coming soon! Fow now, you can look at the source's `_config` var.
+For further reading, refer to the [repo's wiki](https://github.com/ThEnderYoshi/help-builder/wiki).
