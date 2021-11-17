@@ -3,6 +3,26 @@
 import help_builder as hb
 
 
+terms = [  # Terms is where you write the text of the help str.
+    ["plain", "Hello world!"],  # Plain is just plain text.
+    ["rule"],  # Rule is a horizontal rule.
+    ["plain", "Here are some of the types of terms:"],
+    [
+        "commands",  # Commands is a list of commands.
+        ["plain", "['plain', <text>]", "Plain text."],
+        [
+            "commands",
+            "['commands', <cmd>, ...]",
+            "A list of commands."
+        ],
+        ["↳   <cmd>", "[<name>, <params>, <desc>]", "Params of <cmd>"],
+    ],
+    ["rule", 24],
+    ["plain", ("See the source for this example script to "
+        + "find out how this is all structured.")],
+]
+
+
 if __name__ == "__main__":
     cy = hb.AnsiColor(hb.AnsiColor.CYAN)
     rs = hb.AnsiColor.RESET
@@ -15,49 +35,12 @@ if __name__ == "__main__":
     ### EXAMPLE 1 ###
 
     if idx.startswith("1"):
-        terms = [  # Terms is where you write the text of the help str.
-            ["plain", "Hello world!"],  # Plain is just plain text.
-            ["rule"],  # Rule is a horizontal rule.
-            ["plain", "Here are some of the types of terms:"],
-            [
-                "commands",  # Commands is a list of commands.
-                ["plain", "['plain', <text>]", "Plain text."],
-                [
-                    "commands",
-                    "['commands', <cmd>, ...]",
-                    "A list of commands."
-                ],
-                ["↳   <cmd>", "[<name>, <params>, <desc>]", "Params of <cmd>"],
-            ],
-            ["rule", 24],
-            ["plain", ("See the source for this script to "
-                + "find out how this is all structured.")],
-        ]
         print(hb.build({"terms": terms}))
 
 
     ### EXAMPLE 2 ###
 
     elif idx.startswith("2"):
-        terms = [
-            ["plain", "Hello world!"],
-            ["rule"],
-            ["plain", "Here are some of the types of terms:"],
-            [
-                "commands",
-                ["plain", "['plain', <text>]", "Plain text."],
-                [
-                    "commands",
-                    "['commands', <cmd>, ...]",
-                    "A list of commands."
-                ],
-                ["↳   <cmd>", "[<name>, <params>, <desc>]", "Params of <cmd>"],
-            ],
-            ["rule", 24],
-            ["plain", ("See the source for this script to "
-                + "find out how this is all structured.")],
-        ]
-
         config = {  # This dict's structure must match the
                     # source's _config var.
             

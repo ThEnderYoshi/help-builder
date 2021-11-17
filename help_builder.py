@@ -3,7 +3,8 @@
 A simple library to build beautiful help
 strings for the console using ANSI codes.
 
-For help, see the project's GitHub page: <github-page>
+For help, see the project's GitHub page:
+https://github.com/ThEnderYoshi/help-builder
 """
 
 # {"terms": <terms>, "config": <config>}
@@ -108,7 +109,6 @@ def build(help: dict) -> str:
         
         elif term[0] == "rule":
             # Horizontal rule
-            print("PHoo")
             mid_amount: int
             if len(term) > 1:
                 mid_amount = term[1]
@@ -119,7 +119,7 @@ def build(help: dict) -> str:
             r = _get_config("params/rule/right_chars")
             mid_amount -= len(l + r)
             col = _get_config("style/rule/color")
-            
+
             final_str += f"{col}{l}{m * mid_amount}{r}{AnsiColor.RESET}\n"
 
     return final_str
@@ -156,22 +156,3 @@ def _format_command(cmd: str, params: str, desc: str, ) -> list:
         f"{_get_config('style/commands/params')}{params}{AnsiColor.RESET}",
         f"{_get_config('style/commands/desc')}{desc}{AnsiColor.RESET}",
     ]
-
-
-if __name__ == "__main__":
-    terms = [
-        ["plain", "This is a help string!\nhere follows the commands:"],
-        [
-            "commands",
-            ["help", "", "Shows this list."],
-            ["foo", "<bar> <baz>", "A test command."],
-        ],
-    ]
-    config = {
-        "style": {
-            "plain": {
-            }
-        }
-    }
-
-    print(build({"terms": terms, "config": config}))
