@@ -1,6 +1,8 @@
 # Help Builder
 A Python library to make pretty help strings!
 
+Help Builder doesn't use any other libraries, just pure Python!
+
 ## Example:
 
 The following Python code:
