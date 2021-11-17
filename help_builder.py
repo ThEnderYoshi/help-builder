@@ -55,6 +55,9 @@ _config: dict = {  # help["config"] should follow this dict.
     },
 
     "style": {  # ANSI codes go here.
+        "!general": {  # Not a term.
+            "default_color": AnsiColor.RESET,
+        },
         "plain": {
             "color": AnsiColor.RESET,
         },
@@ -86,46 +89,62 @@ def build(help: dict) -> str:
     for term in terms:
         if term[0] == "plain":
             # Plain text
-            col = _get_config("style/plain/color")
-            final_str += f"{col}{term[1]}{AnsiColor.RESET}" \
-                + _get_config("params/plain/trailing")
+            final_str += _make_plain(term)
         
         elif term[0] == "commands":
             # Command list
-            longest_cmd = _get_longest_command(term) \
-                + _get_config("params/commands/desc_spacing")
-
-            for c in range(1, len(term)):
-                arg = term[c]
-                if arg[1] != "":
-                    arg[1] = " " + arg[1]
-                
-                tab = " " * _get_config("params/commands/desc_spacing")
-                if _get_config("params/commands/align_descs"):
-                    tab = " " * (longest_cmd - len(arg[0] + arg[1]))
-
-                final_str += "{0}{1}{3}{2}\n".format(
-                    *_format_command(arg[0], arg[1], arg[2]), tab)
+            final_str += _make_commands(term)
         
         elif term[0] == "rule":
             # Horizontal rule
-            mid_amount: int
-            if len(term) > 1:
-                mid_amount = term[1]
-            else:
-                mid_amount = _get_config("params/rule/default_width")
-            l = _get_config("params/rule/left_chars")
-            m = _get_config("params/rule/middle_char")
-            r = _get_config("params/rule/right_chars")
-            mid_amount -= len(l + r)
-            col = _get_config("style/rule/color")
-
-            final_str += f"{col}{l}{m * mid_amount}{r}{AnsiColor.RESET}\n"
+            final_str += _make_rule(term)
 
     return final_str
 
 
-def _get_config(path: str) -> any:
+def default_color() -> str:
+    """Returns the default text color.
+    Change default at config/style/!general/default_color
+    """
+    return _cfg("style/!general/default_color")
+
+
+def _make_plain(term: list) -> str:
+    col = _cfg("style/plain/color")
+    trail = _cfg("params/plain/trailing")
+    return f"{col}{term[1]}{default_color()}{trail}"
+
+def _make_commands(term: list) -> str:
+    longest_cmd = _get_longest_command(term) \
+        + _cfg("params/commands/desc_spacing")
+    s = ""
+    for c in range(1, len(term)):
+        arg = term[c]
+        if  arg[1] != "": arg[1] = " " + arg[1]
+
+        tab = " " * _cfg("params/commands/desc_spacing")
+        if _cfg("params/commands/align_descs"):
+            tab = " " * (longest_cmd - len(arg[0] + arg[1]))
+        
+        s += "{0}{1}{3}{2}\n".format(*_format_command(arg[0], arg[1], arg[2]),
+            tab)
+    
+    return s
+
+def _make_rule(term: list) -> str:
+    mid_amount: int
+    if len(term) > 1: mid_amount = term[1]
+    else: mid_amount = _cfg("params/rule/default_width")
+    l = _cfg("params/rule/left_chars")
+    m = _cfg("params/rule/middle_char")
+    r = _cfg("params/rule/right_chars")
+    mid_amount -= len(l + r)
+    col = _cfg("style/rule/color")
+
+    return f"{col}{l}{m * mid_amount}{r}{default_color()}\n"
+
+
+def _cfg(path: str) -> any:
     # Go down both config and custom config until either
     # the path ends or custom config runs out of paths.
     # Write path as "path/to/key_name".
@@ -152,7 +171,7 @@ def _get_longest_command(terms: list) -> int:
 
 def _format_command(cmd: str, params: str, desc: str, ) -> list:
     return [
-        f"{_get_config('style/commands/name')}{cmd}{AnsiColor.RESET}",
-        f"{_get_config('style/commands/params')}{params}{AnsiColor.RESET}",
-        f"{_get_config('style/commands/desc')}{desc}{AnsiColor.RESET}",
+        f"{_cfg('style/commands/name')}{cmd}{AnsiColor.RESET}",
+        f"{_cfg('style/commands/params')}{params}{AnsiColor.RESET}",
+        f"{_cfg('style/commands/desc')}{desc}{AnsiColor.RESET}",
     ]

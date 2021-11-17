@@ -12,10 +12,11 @@ terms = [  # Terms is where you write the text of the help str.
         ["plain", "['plain', <text>]", "Plain text."],
         [
             "commands",
-            "['commands', <cmd>, ...]",
+            "['commands', <cmd>...]",
             "A list of commands."
         ],
         ["↳   <cmd>", "[<name>, <params>, <desc>]", "Params of <cmd>"],
+        ["rule", "['rule', <width>?]", "A horizontal rule."],
     ],
     ["rule", 24],
     ["plain", ("See the source for this example script to "
