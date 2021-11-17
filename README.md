@@ -77,4 +77,4 @@ Any ANSI code fields accept either this or just manually writing the code. \
 
 ## Styling
 
-Styling documentation coming soon!
+Styling documentation coming soon! Fow now, you can look at the source's `_config` var.
